@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM - ViViTech</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='imagenes/logo.png') }}">
+</head>
+
+<body class="bg-gray-100">
+    <!-- NAVBAR -->
+    <nav
+        class="bg-gradient-to-r from-blue-900 to-cyan-500 text-white px-6 py-3 flex items-center justify-between w-full relative">
+        <div class="flex items-center gap-8 w-full">
+
+            <div class="flex items-center gap-3">
+                <div class="bg-white text-blue-900 font-bold px-2 py-1 text-sm rounded">
+                    CRM
+                </div>
+                <span class="font-semibold text-lg">ViViTech</span>
+            </div>
+
+            <!-- links de navegacion -->
+            <div class="hidden md:flex gap-6 text-sm absolute left-1/2 -translate-x-1/2">
+                <a href="/"
+                    class="hidden md:flex gap-6 mx-auto text-sm text-gray-300 hover:text-white">Inicio</a>
+                <a href="/clientes"
+                    class="hidden md:flex gap-6 mx-auto text-sm text-gray-300 hover:text-white font-bold underline">Clientes</a>
+                <a href="/comerciales"
+                    class="hidden md:flex gap-6 mx-auto text-sm text-gray-300 hover:text-white">Comerciales</a>
+                <a href="/pedidos"
+                    class="hidden md:flex gap-6 mx-auto text-sm text-gray-300 hover:text-white">Pedidos</a>
+                <a href="/facturas"
+                    class="hidden md:flex gap-6 mx-auto text-sm text-gray-300 hover:text-white">Facturas</a>
+            </div>
+
+            <!-- boton hamburguesa, solo se ve en movil -->
+            <button id="menu-btn" class="md:hidden text-white focus:outline-none ml-auto">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+        <!-- menu flotante, empieza oculto -->
+        <div id="menu-movil"
+            class="hidden absolute right-4 top-14 bg-white rounded border border-gray-200 shadow-lg z-50 w-48">
+            <a href="/"
+                class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 border-b border-gray-100">Inicio</a>
+            <a href="/clientes"
+                class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 border-b border-gray-100 font-bold">Clientes</a>
+            <a href="/comerciales"
+                class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 border-b border-gray-100">Comerciales</a>
+            <a href="/pedidos"
+                class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 border-b border-gray-100">Pedidos</a>
+            <a href="/facturas"
+                class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 border-b border-gray-100">Facturas</a>
+        </div>
+    </nav>
+
+
+
+
+    <script>
+        // hamburguesa
+        document.getElementById("menu-btn").addEventListener("click", function () {
+            const menu = document.getElementById("menu-movil")
+            menu.classList.toggle("hidden")
+        })
+    </script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init()
+    </script>
+
+
+</body>
+
+</html>
