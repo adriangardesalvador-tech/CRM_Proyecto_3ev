@@ -1,5 +1,5 @@
 # CRM_Proyecto_3ev
-# 📊 CRM_Proyecto_3EV
+#  CRM_Proyecto_3EV
 
 Proyecto desarrollado por alumnos de **1º de Desarrollo de Aplicaciones Multiplataforma (DAM)** como trabajo de la **3ª evaluación**.
 
@@ -7,14 +7,14 @@ Este proyecto consiste en un sistema tipo CRM (Customer Relationship Management)
 
 ---
 
-## 👨‍🏫👩‍🎓 Dirigido a
+##  Dirigido a
 
 - Profesores que evalúan el proyecto  
 - Alumnos de DAM como material de aprendizaje y referencia  
 
 ---
 
-## 🎯 Objetivo del proyecto
+##  Objetivo del proyecto
 
 El objetivo principal es simular un sistema básico de gestión de información de clientes, permitiendo trabajar conceptos como:
 
@@ -25,7 +25,7 @@ El objetivo principal es simular un sistema básico de gestión de información 
 
 ---
 
-## ⚙️ Funcionalidades
+##  Funcionalidades
 
 - Gestión de clientes (alta, consulta, modificación y eliminación)  
 - Interfaz de usuario para interacción con el sistema  
@@ -33,13 +33,13 @@ El objetivo principal es simular un sistema básico de gestión de información 
 
 ---
 
-## 📁 Estructura del proyecto
+##  Estructura del proyecto
 
 La estructura del proyecto depende de la organización interna del equipo y puede variar según la versión.
 
 ---
 
-## 🚀 Instalación y uso
+##  Instalación y uso
 
 1. Clonar el repositorio  
 2. Abrir el proyecto en el entorno de desarrollo correspondiente  
@@ -48,7 +48,7 @@ La estructura del proyecto depende de la organización interna del equipo y pued
 
 ---
 
-## 🧠 Aprendizajes
+##  Aprendizajes
 
 - Trabajo con proyectos completos  
 - Organización de código  
@@ -58,7 +58,7 @@ La estructura del proyecto depende de la organización interna del equipo y pued
 
 ---
 
-## 📌 Notas
+##  Notas
 
 Proyecto realizado con fines educativos en el contexto del ciclo formativo de DAM. Puede contener simplificaciones propias del aprendizaje.
 
