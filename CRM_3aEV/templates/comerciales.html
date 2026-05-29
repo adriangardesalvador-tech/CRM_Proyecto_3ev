@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM - ViViTech</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='imagenes/logo.png') }}">
+</head>
+
+<body class="bg-gray-100">
+    <nav class="bg-gradient-to-r from-blue-900 to-cyan-500 text-white px-6 py-3 flex items-center justify-between w-full relative">
+        <div class="flex items-center gap-8 w-full">
+
+            <div class="flex items-center gap-3">
+                <a href="/" class="bg-white text-blue-900 font-bold px-2 py-1 text-sm rounded">CRM</a>
+                <a href="/" class="font-semibold text-lg">ViViTech</a>
+            </div>
+
+            <div class="hidden md:flex gap-6 text-sm absolute left-1/2 -translate-x-1/2">
+                <a href="/" class="text-gray-300 hover:text-white">Inicio</a>
+                <a href="/clientes" class="text-gray-300 hover:text-white">Clientes</a>
+                <a href="/comerciales" class="text-white font-bold underline">Comerciales</a>
+                <a href="/pedidos" class="text-gray-300 hover:text-white">Pedidos</a>
+                <a href="/facturas" class="text-gray-300 hover:text-white">Facturas</a>
+            </div>
+
+            <button id="menu-btn" class="md:hidden text-white focus:outline-none ml-auto">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+
+        <div id="menu-movil" class="hidden absolute right-4 top-14 bg-white rounded border border-gray-200 shadow-lg z-50 w-48">
+            <a href="/" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 border-b border-gray-100">Inicio</a>
+            <a href="/clientes" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 border-b border-gray-100">Clientes</a>
+            <a href="/comerciales" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 border-b border-gray-100 font-bold">Comerciales</a>
+            <a href="/pedidos" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 border-b border-gray-100">Pedidos</a>
+            <a href="/facturas" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">Facturas</a>
+        </div>
+    </nav>
+
+    <div class="bg-white border-b border-gray-200 px-6 py-4">
+        <h1 class="text-xl font-bold text-gray-800">Comerciales</h1>
+        <p class="text-sm text-gray-500">Rendimiento del equipo comercial de ViViTech</p>
+    </div>
+
+    <div class="p-6 flex flex-col gap-6">
+
+        <div class="bg-white rounded border border-gray-200 p-6" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+            <h2 class="font-bold text-gray-700 mb-1">Pedidos por Comercial</h2>
+            <p class="text-xs text-gray-400 mb-5">Calculado sobre el total de pedidos</p>
+
+            <div class="flex flex-col gap-4">
+                {% set maximo = comerciales[0].total_pedidos if comerciales else 1 %}
+                {% for comercial in comerciales %}
+                <div>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span class="font-medium text-gray-700">{{ comercial.nombre }}</span>
+                        <span class="text-gray-500">{{ comercial.total_pedidos }} pedidos</span>
+                    </div>
+                    <div class="w-full bg-gray-100 rounded-full h-3">
+                        {% if maximo > 0 %}
+                        {% set porcentaje = (comercial.total_pedidos * 100) // maximo %}
+                        {% else %}
+                        {% set porcentaje = 0 %}
+                        {% endif %}
+                        <div class="bg-blue-900 h-3 rounded-full" style="width: {{ porcentaje }}%"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-6">
+
+            <div class="flex-1 bg-white rounded border border-gray-200" data-aos="fade-right" data-aos-delay="200" data-aos-duration="1000">
+                
+                <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+                    <h2 class="font-bold text-gray-700">Listado de Plantilla</h2>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50 border-b border-gray-200">
+                            <tr class="text-left text-gray-500 text-xs uppercase">
+                                <th class="px-4 py-3">Nombre</th>
+                                <th class="px-4 py-3 hidden md:table-cell">Correo</th>
+                                <th class="px-4 py-3 hidden md:table-cell">Teléfono</th>
+                                <th class="px-4 py-3">Pedidos</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            {% for comercial in comerciales %}
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 font-medium text-gray-800">{{ comercial.nombre }}</td>
+                                <td class="px-4 py-3 text-gray-500 hidden md:table-cell">{{ comercial.correo }}</td>
+                                <td class="px-4 py-3 text-gray-500 hidden md:table-cell">
+                                    {{ comercial.telefono if comercial.telefono else '-' }}
+                                </td>
+                                <td class="px-4 py-3 font-bold text-gray-800">{{ comercial.total_pedidos }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="px-4 py-3 border-t border-gray-200 text-sm text-gray-500">
+                    {{ comerciales|length }} comerciales en total
+                </div>
+            </div>
+
+            <div class="w-full lg:w-80 flex flex-col gap-4" data-aos="fade-left" data-aos-delay="300" data-aos-duration="1000">
+                
+                <div class="bg-white rounded border border-gray-200 p-4">
+                    <p class="text-sm text-gray-500">Total Comerciales</p>
+                    <p class="text-3xl font-bold text-gray-800 mt-1">{{ comerciales|length }}</p>
+                    <p class="text-xs text-gray-400 mt-2">En plantilla</p>
+                </div>
+
+                <div class="bg-white rounded border border-gray-200 p-4">
+                    <p class="text-sm text-gray-500">Total Pedidos</p>
+                    <p class="text-3xl font-bold text-gray-800 mt-1">{{ comerciales|sum(attribute='total_pedidos') }}</p>
+                    <p class="text-xs text-gray-400 mt-2">Entre todos los comerciales</p>
+                </div>
+
+                <div class="bg-white rounded border border-gray-200 p-4">
+                    <p class="text-sm text-gray-500">Mejor comercial</p>
+                    <p class="text-xl font-bold text-gray-800 mt-1 truncate">{{ comerciales[0].nombre if comerciales else '-' }}</p>
+                    <p class="text-xs text-green-600 mt-2">↑ {{ comerciales[0].total_pedidos if comerciales else 0 }} pedidos</p>
+                </div>
+
+                <div class="bg-white rounded border border-gray-200">
+                    <div class="px-4 py-3 border-b border-gray-200">
+                        <h3 class="font-bold text-gray-700 text-xs uppercase">Accesos Rápidos</h3>
+                    </div>
+                    <div class="p-4 flex flex-col gap-2">
+                        <a href="/" class="border border-gray-300 rounded px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                            <span>🏠</span> Volver al Inicio
+                        </a>
+                        <a href="/clientes" class="border border-gray-300 rounded px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                            <span>👥</span> Ver Clientes
+                        </a>
+                        <a href="/facturas" class="border border-gray-300 rounded px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                            <span>💳</span> Ver Facturas
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer class="mt-8 border-t border-gray-200 bg-white px-6 py-4 text-center text-xs text-gray-400">
+        GestorCRM &copy; 2025 &nbsp;·&nbsp; Proyecto de 1º DAM &nbsp;·&nbsp; Version 1.0
+    </footer>
+
+    <script>
+        // hamburguesa
+        document.getElementById("menu-btn").addEventListener("click", function () {
+            const menu = document.getElementById("menu-movil")
+            menu.classList.toggle("hidden")
+        })
+
+        // resaltar fila al hacer click
+        const filas = document.querySelectorAll('tbody tr')
+        filas.forEach(fila => {
+            fila.addEventListener('click', () => {
+                filas.forEach(f => f.classList.remove('bg-blue-50'))
+                fila.classList.add('bg-blue-50')
+            })
+        })
+    </script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init()
+    </script>
+
+</body>
+
+</html>
