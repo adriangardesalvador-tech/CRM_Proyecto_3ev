@@ -25,8 +25,7 @@
 
             <!-- links de navegacion -->
             <div class="hidden md:flex gap-6 text-sm absolute left-1/2 -translate-x-1/2">
-                <a href="/"
-                    class="hidden md:flex gap-6 mx-auto text-sm text-gray-300 hover:text-white">Inicio</a>
+                <a href="/" class="hidden md:flex gap-6 mx-auto text-sm text-gray-300 hover:text-white">Inicio</a>
                 <a href="/clientes"
                     class="hidden md:flex gap-6 mx-auto text-sm text-gray-300 hover:text-white font-bold underline">Clientes</a>
                 <a href="/comerciales"
@@ -70,9 +69,10 @@
         <thead class="bg-gray-50 border-b border-gray-200">
             <tr class="text-left text-gray-500 text-xs uppercase">
                 <th class="px-4 py-3">Nombre</th>
-                <th class="px-4 py-3 hidden md:table-cell">Email</th>
-                <th class="px-4 py-3 hidden md:table-cell">Telefono</th>
-                <th class="px-4 py-3">Estado</th>
+                <th class="px-4 py-3 hidden md:table-cell">Correo</th>
+                <th class="px-4 py-3">Telefono</th>
+                <th class="px-4 py-3">Direccion</th>
+                <th class="px-4 py-3 hidden md:table-cell">Comercial</th>
                 <th class="px-4 py-3">Acciones</th>
             </tr>
         </thead>
@@ -80,19 +80,19 @@
             {% for cliente in clientes %}
             <tr class="hover:bg-gray-50">
                 <td class="px-4 py-3 font-medium text-gray-800">{{ cliente.nombre }}</td>
-                <td class="px-4 py-3 text-gray-500 hidden md:table-cell">{{ cliente.email }}</td>
+                <td class="px-4 py-3 text-gray-500 hidden md:table-cell">{{ cliente.correo }}</td>
                 <td class="px-4 py-3 text-gray-500 hidden md:table-cell">{{ cliente.telefono }}</td>
+                <td class="px-4 py-3 text-gray-500 hidden md:table-cell">{{ cliente.direccion }}</td>
+                <td class="px-4 py-3 text-gray-500 hidden md:table-cell">{{ cliente.comercial }}</td>
                 <td class="px-4 py-3">
-                    <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">{{
-                        cliente.estado }}</span>
-                </td>
-                <td class="px-4 py-3 flex gap-2">
-                    <button onclick="alert('Ver cliente')" class="text-blue-600 hover:underline text-xs">Ver</button>
-                    <button onclick="alert('Editar cliente')"
-                        class="text-gray-500 hover:underline text-xs">Editar</button>
-                    <button onclick="confirm('¿Seguro que quieres eliminar?')"
-                        class="text-red-500 hover:underline text-xs">Eliminar</button>
-                </td>
+                    <div class="flex gap-2 items-center">
+                        <a href="/editar/{{ cliente.id_cliente }}"
+                            class="text-blue-600 hover:underline text-xs">Editar</a>
+                        <form action="/eliminar/{{ cliente.id_cliente }}" method="POST">
+                            <button type="submit" onclick="return confirm('¿Seguro que quieres eliminar este cliente?')"
+                                class="text-red-500 hover:underline text-xs">Eliminar</button>
+                        </form>
+                    </div>
             </tr>
             {% endfor %}
         </tbody>

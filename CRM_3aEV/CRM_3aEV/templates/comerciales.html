@@ -61,217 +61,105 @@
 
         <!-- BARRAS DE PROGRESO ARRIBA -->
         <div class="bg-white rounded border border-gray-200 p-6">
-            <h2 class="font-bold text-gray-700 mb-1">Ventas por Comercial este mes</h2>
-            <p class="text-xs text-gray-400 mb-5">El máximo es 40 ventas</p>
+            <h2 class="font-bold text-gray-700 mb-1">Pedidos por Comercial</h2>
+            <p class="text-xs text-gray-400 mb-5">Calculado sobre el total de pedidos</p>
 
             <div class="flex flex-col gap-4">
-
+                {% set maximo = comerciales[0].total_pedidos if comerciales else 1 %}
+                {% for comercial in comerciales %}
                 <div>
                     <div class="flex justify-between text-sm mb-1">
-                        <span class="font-medium text-gray-700">Carlos Fernández</span>
-                        <span class="text-gray-500">34 ventas</span>
+                        <span class="font-medium text-gray-700">{{ comercial.nombre }}</span>
+                        <span class="text-gray-500">{{ comercial.total_pedidos }} pedidos</span>
                     </div>
                     <div class="w-full bg-gray-100 rounded-full h-3">
-                        <div class="bg-blue-900 h-3 rounded-full" style="width: 85%"></div>
+                        {% if maximo > 0 %}
+                        {% set porcentaje = (comercial.total_pedidos * 100) // maximo %}
+                        {% else %}
+                        {% set porcentaje = 0 %}
+                        {% endif %}
+                        <div class="bg-blue-900 h-3 rounded-full" style="width: {{ porcentaje }}%"></div>
                     </div>
                 </div>
-
-                <div>
-                    <div class="flex justify-between text-sm mb-1">
-                        <span class="font-medium text-gray-700">Laura Gómez</span>
-                        <span class="text-gray-500">28 ventas</span>
-                    </div>
-                    <div class="w-full bg-gray-100 rounded-full h-3">
-                        <div class="bg-blue-900 h-3 rounded-full" style="width: 70%"></div>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="flex justify-between text-sm mb-1">
-                        <span class="font-medium text-gray-700">Miguel Torres</span>
-                        <span class="text-gray-500">21 ventas</span>
-                    </div>
-                    <div class="w-full bg-gray-100 rounded-full h-3">
-                        <div class="bg-blue-900 h-3 rounded-full" style="width: 52%"></div>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="flex justify-between text-sm mb-1">
-                        <span class="font-medium text-gray-700">Sara Jiménez</span>
-                        <span class="text-gray-500">19 ventas</span>
-                    </div>
-                    <div class="w-full bg-gray-100 rounded-full h-3">
-                        <div class="bg-blue-900 h-3 rounded-full" style="width: 47%"></div>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="flex justify-between text-sm mb-1">
-                        <span class="font-medium text-gray-700">Rubén Navarro</span>
-                        <span class="text-gray-500">15 ventas</span>
-                    </div>
-                    <div class="w-full bg-gray-100 rounded-full h-3">
-                        <div class="bg-blue-900 h-3 rounded-full" style="width: 37%"></div>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="flex justify-between text-sm mb-1">
-                        <span class="font-medium text-gray-700">Elena Moreno</span>
-                        <span class="text-xs text-gray-400 italic">De baja</span>
-                    </div>
-                    <div class="w-full bg-gray-100 rounded-full h-3">
-                        <div class="bg-gray-300 h-3 rounded-full" style="width: 0%"></div>
-                    </div>
-                </div>
-
+                {% endfor %}
             </div>
         </div>
 
 
-
-        <!-- TARJETAS DE RESUMEN -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
             <div class="bg-white rounded border border-gray-200 p-4" data-aos="fade-right" data-aos-delay="200"
                 data-aos-duration="1000">
                 <p class="text-sm text-gray-500">Total Comerciales</p>
-                <p class="text-3xl font-bold text-gray-800 mt-1">6</p>
+                <p class="text-3xl font-bold text-gray-800 mt-1">{{ comerciales|length }}</p>
                 <p class="text-xs text-gray-400 mt-2">En plantilla</p>
             </div>
-
-            <div class="bg-white rounded border border-gray-200 p-4 " data-aos="fade-up" data-aos-delay="200"
+            <div class="bg-white rounded border border-gray-200 p-4" data-aos="fade-up" data-aos-delay="200"
                 data-aos-duration="1000">
-                <p class="text-sm text-gray-500">Activos este mes</p>
-                <p class="text-3xl font-bold text-gray-800 mt-1">5</p>
-                <p class="text-xs text-green-600 mt-2">↑ 1 más que el mes pasado</p>
+                <p class="text-sm text-gray-500">Total Pedidos</p>
+                <p class="text-3xl font-bold text-gray-800 mt-1">{{ comerciales|sum(attribute='total_pedidos') }}</p>
+                <p class="text-xs text-gray-400 mt-2">Entre todos los comerciales</p>
             </div>
-
-            <div class="bg-white rounded border border-gray-200 p-4 " data-aos="fade-left" data-aos-delay="200"
+            <div class="bg-white rounded border border-gray-200 p-4" data-aos="fade-left" data-aos-delay="200"
                 data-aos-duration="1000">
-                <p class="text-sm text-gray-500">Mejor vendedor</p>
-                <p class="text-xl font-bold text-gray-800 mt-1">Carlos Fdez.</p>
-                <p class="text-xs text-green-600 mt-2">↑ 34 ventas este mes</p>
+                <p class="text-sm text-gray-500">Mejor comercial</p>
+                <p class="text-xl font-bold text-gray-800 mt-1">{{ comerciales[0].nombre if comerciales else '-' }}</p>
+                <p class="text-xs text-green-600 mt-2">↑ {{ comerciales[0].total_pedidos if comerciales else 0 }}
+                    pedidos</p>
             </div>
-
         </div>
 
         <!-- TABLA ABAJO -->
-        <div class="bg-white rounded border border-gray-200" data-aos="fade-up" data-aos-delay="200"
-            data-aos-duration="1000">
+        <table class="w-full text-sm">
+            <thead class="bg-gray-50 border-b border-gray-200">
+                <tr class="text-left text-gray-500 text-xs uppercase">
+                    <th class="px-4 py-3">Nombre</th>
+                    <th class="px-4 py-3 hidden md:table-cell">Correo</th>
+                    <th class="px-4 py-3 hidden md:table-cell">Telefono</th>
+                    <th class="px-4 py-3">Pedidos</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                {% for comercial in comerciales %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3 font-medium text-gray-800">{{ comercial.nombre }}</td>
+                    <td class="px-4 py-3 text-gray-500 hidden md:table-cell">{{ comercial.correo }}</td>
+                    <td class="px-4 py-3 text-gray-500 hidden md:table-cell">{{ comercial.telefono if comercial.telefono
+                        else '-' }}</td>
+                    <td class="px-4 py-3 font-bold text-gray-800">{{ comercial.total_pedidos }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-            <div class="px-4 py-3 border-b border-gray-200">
-                <h2 class="font-bold text-gray-700">Lista de Comerciales</h2>
-            </div>
-
-            <table class="w-full text-sm">
-                <thead class="bg-gray-50 border-b border-gray-200">
-                    <tr class="text-left text-gray-500 text-xs uppercase">
-                        <th class="px-4 py-3">Nombre</th>
-                        <th class="px-4 py-3 hidden md:table-cell">Email</th>
-                        <th class="px-4 py-3 hidden md:table-cell">Telefono</th>
-                        <th class="px-4 py-3 hidden md:table-cell">Zona</th>
-                        <th class="px-4 py-3">Ventas</th>
-                        <th class="px-4 py-3">Estado</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100">
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-4 py-3 font-medium text-gray-800">Carlos Fernández</td>
-                        <td class="px-4 py-3 hidden md:table-cell text-gray-500">carlos@vivitech.es</td>
-                        <td class="px-4 py-3 hidden md:table-cell text-gray-500">611 222 333</td>
-                        <td class="px-4 py-3 hidden md:table-cell text-gray-500">Madrid</td>
-                        <td class="px-4 py-3 font-bold text-gray-800">34</td>
-                        <td class="px-4 py-3">
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">Activo</span>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-4 py-3 font-medium text-gray-800">Laura Gómez</td>
-                        <td class="px-4 py-3 hidden md:table-cell text-gray-500">laura@vivitech.es</td>
-                        <td class="px-4 py-3 hidden md:table-cell text-gray-500">622 333 444</td>
-                        <td class="px-4 py-3 hidden md:table-cell text-gray-500">Barcelona</td>
-                        <td class="px-4 py-3 font-bold text-gray-800">28</td>
-                        <td class="px-4 py-3">
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">Activo</span>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-4 py-3 font-medium text-gray-800">Miguel Torres</td>
-                        <td class="px-4 py-3 hidden md:table-cell text-gray-500">miguel@vivitech.es</td>
-                        <td class="px-4 py-3 hidden md:table-cell text-gray-500">633 444 555</td>
-                        <td class="px-4 py-3 hidden md:table-cell text-gray-500">Valencia</td>
-                        <td class="px-4 py-3 font-bold text-gray-800">21</td>
-                        <td class="px-4 py-3">
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">Activo</span>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-4 py-3 font-medium text-gray-800">Sara Jiménez</td>
-                        <td class="px-4 py-3 hidden md:table-cell text-gray-500">sara@vivitech.es</td>
-                        <td class="px-4 py-3 hidden md:table-cell text-gray-500">644 555 666</td>
-                        <td class="px-4 py-3 hidden md:table-cell text-gray-500">Sevilla</td>
-                        <td class="px-4 py-3 font-bold text-gray-800">19</td>
-                        <td class="px-4 py-3">
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">Activo</span>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-4 py-3 font-medium text-gray-800">Rubén Navarro</td>
-                        <td class="px-4 py-3 hidden md:table-cell text-gray-500">ruben@vivitech.es</td>
-                        <td class="px-4 py-3 hidden md:table-cell text-gray-500">655 666 777</td>
-                        <td class="px-4 py-3 hidden md:table-cell text-gray-500">Bilbao</td>
-                        <td class="px-4 py-3 font-bold text-gray-800">15</td>
-                        <td class="px-4 py-3">
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">Activo</span>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-4 py-3 font-medium text-gray-800">Elena Moreno</td>
-                        <td class="px-4 py-3 hidden md:table-cell text-gray-500">elena@vivitech.es</td>
-                        <td class="px-4 py-3 hidden md:table-cell text-gray-500">666 777 888</td>
-                        <td class="px-4 py-3 hidden md:table-cell text-gray-500">Zaragoza</td>
-                        <td class="px-4 py-3 font-bold text-gray-800">0</td>
-                        <td class="px-4 py-3">
-                            <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded-full">Baja</span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="px-4 py-3 border-t border-gray-200 text-sm text-gray-500">
-                6 comerciales en total
-            </div>
-
+        <div class="px-4 py-3 border-t border-gray-200 text-sm text-gray-500">
+            {{ comerciales|length }} comerciales en total
         </div>
-    </div>
 
-    <footer class="mt-4 border-t border-gray-200 bg-white px-6 py-4 text-center text-xs text-gray-400">
-        GestorCRM &copy; 2025 &nbsp;·&nbsp; Proyecto de 1º DAM &nbsp;·&nbsp; Version 1.0
-    </footer>
+        <footer class="mt-4 border-t border-gray-200 bg-white px-6 py-4 text-center text-xs text-gray-400">
+            GestorCRM &copy; 2025 &nbsp;·&nbsp; Proyecto de 1º DAM &nbsp;·&nbsp; Version 1.0
+        </footer>
 
-    <script>
-        // hamburguesa
-        document.getElementById("menu-btn").addEventListener("click", function () {
-            const menu = document.getElementById("menu-movil")
-            menu.classList.toggle("hidden")
-        })
-
-        // resaltar fila al hacer click
-        const filas = document.querySelectorAll('tbody tr')
-        filas.forEach(fila => {
-            fila.addEventListener('click', () => {
-                filas.forEach(f => f.classList.remove('bg-blue-50'))
-                fila.classList.add('bg-blue-50')
+        <script>
+            // hamburguesa
+            document.getElementById("menu-btn").addEventListener("click", function () {
+                const menu = document.getElementById("menu-movil")
+                menu.classList.toggle("hidden")
             })
-        })
-    </script>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init()
-    </script>
+            // resaltar fila al hacer click
+            const filas = document.querySelectorAll('tbody tr')
+            filas.forEach(fila => {
+                fila.addEventListener('click', () => {
+                    filas.forEach(f => f.classList.remove('bg-blue-50'))
+                    fila.classList.add('bg-blue-50')
+                })
+            })
+        </script>
+
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+            AOS.init()
+        </script>
 
 </body>
 
