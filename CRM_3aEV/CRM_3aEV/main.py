@@ -22,6 +22,15 @@ def inicio():
     conn.close()
     return render_template("index.html", clientes=clientes)
 
+@app.route("/clientes")
+def clientes():
+    conn = get_conexion()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM clientes ORDER BY ventas DESC")
+    clientes = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template("clientes.html", clientes=clientes)
 
 @app.route("/añadir", methods=["POST"])
 def añadir_cliente():

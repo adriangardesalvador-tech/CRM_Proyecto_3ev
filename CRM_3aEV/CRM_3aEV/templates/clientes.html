@@ -60,6 +60,43 @@
         </div>
     </nav>
 
+    <div class="bg-white border-b border-gray-200 px-6 py-4">
+        <h1 class="text-xl font-bold text-gray-800">Panel de Clientes</h1>
+        <p class="text-sm text-gray-500">Aquí podrás ver y gestionar a los clientes</p>
+    </div>
+
+
+    <table class="w-full text-sm">
+        <thead class="bg-gray-50 border-b border-gray-200">
+            <tr class="text-left text-gray-500 text-xs uppercase">
+                <th class="px-4 py-3">Nombre</th>
+                <th class="px-4 py-3 hidden md:table-cell">Email</th>
+                <th class="px-4 py-3 hidden md:table-cell">Telefono</th>
+                <th class="px-4 py-3">Estado</th>
+                <th class="px-4 py-3">Acciones</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+            {% for cliente in clientes %}
+            <tr class="hover:bg-gray-50">
+                <td class="px-4 py-3 font-medium text-gray-800">{{ cliente.nombre }}</td>
+                <td class="px-4 py-3 text-gray-500 hidden md:table-cell">{{ cliente.email }}</td>
+                <td class="px-4 py-3 text-gray-500 hidden md:table-cell">{{ cliente.telefono }}</td>
+                <td class="px-4 py-3">
+                    <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">{{
+                        cliente.estado }}</span>
+                </td>
+                <td class="px-4 py-3 flex gap-2">
+                    <button onclick="alert('Ver cliente')" class="text-blue-600 hover:underline text-xs">Ver</button>
+                    <button onclick="alert('Editar cliente')"
+                        class="text-gray-500 hover:underline text-xs">Editar</button>
+                    <button onclick="confirm('¿Seguro que quieres eliminar?')"
+                        class="text-red-500 hover:underline text-xs">Eliminar</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 
 
