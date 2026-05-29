@@ -64,6 +64,6 @@ Proyecto realizado con fines educativos en el contexto del ciclo formativo de DA
 
 ---
 
-## 👥 Autoría
+##  Autoría
 
 Proyecto realizado por alumnos de **1º DAM**.
